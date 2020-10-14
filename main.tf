@@ -9,7 +9,12 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  #features {}
+  version = ">= 2.26"
+  subscription_id = var.sub
+  client_id       = "${var.client_id}"
+  client_secret   = "${var.client_secret}"
+  tenant_id       = "${var.tenant_id}"
 }
 
 
@@ -37,13 +42,14 @@ resource "azurerm_analysis_services_server" "analysisserver" {
 }
 */
 
+/*
 # Create Azure Datafactory
 resource "azurerm_data_factory" "adf" {
   name                = "${var.prefix}DF"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
-
+*/
 
 # BELOW IS USED TO CREATE A SYNAPSE POOL, TODD WALKER NOTED WE MAY BE ABLE TO SETUP ONE MANUALLU WITH THE TEAM
 /*
