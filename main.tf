@@ -1,15 +1,5 @@
-# Configure the Microsoft Azure Provider.
-terraform {
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "2.31.1"
-    }
-  }
-}
-
 provider "azurerm" {
-  #features {}
+  version = "2.31.1"
   subscription_id = var.sub
   client_id       = "${var.client_id}"
   client_secret   = "${var.client_secret}"
