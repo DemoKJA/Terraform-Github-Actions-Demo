@@ -4,11 +4,6 @@ variable "sub" {
   default = "23b3554b-c081-418d-b674-b21c29fa1a13"
 }
 
-variable "client_secret" { 
-  type = string 
-  default = "6~ffybu8K-sFRyN.CnuVOhN~26._tvcJ51"
-}
-
 
 variable "client_id" { 
   type = string 
