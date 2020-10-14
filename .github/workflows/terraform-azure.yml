@@ -1,4 +1,4 @@
-name: Terraform deploy to Azure
+name: Terraform deploy to Azur
 
 on: [push]
 
