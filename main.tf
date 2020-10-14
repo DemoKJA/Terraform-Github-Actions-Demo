@@ -15,14 +15,14 @@ provider "azurerm" {
 
 # Create a resource group
 resource "azurerm_resource_group" "rg" {
-  name     = "kjTEST"
-  location = "eastus 2"
+  name     = var.prefix
+  location = var.location
 }
 
-
+/*
 # Create Azure Analysis Services
 resource "azurerm_analysis_services_server" "analysisserver" {
-  name                    = "kjaaastest"
+  name                    = "${var.prefix}aas"
   location                = azurerm_resource_group.rg.location
   resource_group_name     = azurerm_resource_group.rg.name
   sku                     = "S0"
@@ -35,11 +35,11 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   }
   
 }
-
+*/
 
 # Create Azure Datafactory
 resource "azurerm_data_factory" "adf" {
-  name                = "kjADFtest"
+  name                = "${var.prefix}DF"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
@@ -50,7 +50,7 @@ resource "azurerm_data_factory" "adf" {
 
 #** Storage account ** will most likely replace with references to existing storage accounts
 resource "azurerm_storage_account" "storage" {
-  name                     = "kjastoragetest"
+  name                     = "${var.prefix}storage"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -68,7 +68,7 @@ resource "azurerm_role_assignment" "role" {
 
 # File system
 resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
-  name               = "testfilesystem"
+  name               = "filesystem"
   storage_account_id = azurerm_storage_account.storage.id
   depends_on = [azurerm_role_assignment.role]  # dependency for the role created
 }
@@ -76,12 +76,12 @@ resource "azurerm_storage_data_lake_gen2_filesystem" "filesystem" {
 
 # Synapse 
 resource "azurerm_synapse_workspace" "workspace" {
-  name                                 = "kjaworkspace"
+  name                                 = "${var.prefix}workspace"
   resource_group_name                  = azurerm_resource_group.rg.name
   location                             = azurerm_resource_group.rg.location
   storage_data_lake_gen2_filesystem_id = azurerm_storage_data_lake_gen2_filesystem.filesystem.id
   sql_administrator_login              = "kjakah08"
-  sql_administrator_login_password     = "123456test!"
+  sql_administrator_login_password     = "123456!"
 }
 
 # Firewall rule to allow all ** May want to change before sending to Kroger...
@@ -94,7 +94,7 @@ resource "azurerm_synapse_firewall_rule" "example" {
 
 # 
 resource "azurerm_synapse_sql_pool" "synapsepool" {
-  name                 = "kjatestsqlpool"
+  name                 = "${var.prefix}sqlpool"
   synapse_workspace_id = azurerm_synapse_workspace.workspace.id
   sku_name             = "DW100c"
   create_mode          = "Default"
