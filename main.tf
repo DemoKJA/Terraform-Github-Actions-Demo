@@ -10,7 +10,6 @@ terraform {
 
 provider "azurerm" {
   #features {}
-  version = ">= 2.26"
   subscription_id = var.sub
   client_id       = "${var.client_id}"
   client_secret   = "${var.client_secret}"
