@@ -24,7 +24,8 @@ jobs:
        args: -var="client_secret=${{ secrets.clientSecret }}"
              -var="client_id=${{ secrets.clientId }}"
              -var="tenant_id=${{ secrets.tenantId }}"
-       
+             -var="sub=${{ secrets.sub }}"
+                  
     - name: "Terraform Apply"
       uses: hashicorp/terraform-github-actions@master
       with:
