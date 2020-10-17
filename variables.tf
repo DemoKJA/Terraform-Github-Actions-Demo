@@ -1,3 +1,6 @@
+variable "az_storage_secret_key" { 
+  type = string 
+}
 
 variable "sub" { 
   type = string 
