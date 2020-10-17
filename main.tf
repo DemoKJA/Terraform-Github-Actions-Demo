@@ -7,12 +7,6 @@ provider "azurerm" {
   features {}
 }
 
-resource "azurerm_role_assignment" "role" {
-  scope    = azurerm_resource_group.rg.id
-  role_definition_name = "Contributor"
-  principal_id         = "2dc2bb2e-c466-4208-9ad6-0f8234a9f2b2"  #** Should be the service Principal on the resource groun and take ObjectID from Kroger to place here
-}
-
 # Create a resource group
 resource "azurerm_resource_group" "rg" {
   name     = var.prefix
