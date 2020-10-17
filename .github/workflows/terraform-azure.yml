@@ -17,6 +17,8 @@ jobs:
        tf_actions_subcommand: "init"
       env:
        ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
+       ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
+       ARM_TENANT_ID: ${{ secrets.tenantId }}
 
     - name: "Terraform Plan"
       uses: hashicorp/terraform-github-actions@master
