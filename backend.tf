@@ -1,3 +1,5 @@
+# Establishing the backend to pull the terraform remote state file
+
 # *Authentication managed with environmental variables pulled from github secrets:
 # ARM_TENANT_ID
 # ARM_SUBSCRIPTION_ID
