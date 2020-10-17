@@ -40,7 +40,7 @@ resource "azurerm_data_factory" "adf" {
 }
 */
 
-# BELOW IS USED TO CREATE A SYNAPSE POOL, TODD WALKER NOTED WE MAY BE ABLE TO SETUP ONE MANUALLU WITH THE TEAM
+#* BELOW IS USED TO CREATE A SYNAPSE POOL, TODD WALKER NOTED WE MAY BE ABLE TO SETUP ONE MANUALLU WITH THE TEAM
 /*
 
 #** Storage account ** will most likely replace with references to existing storage accounts
