@@ -27,12 +27,7 @@ jobs:
       with:
        tf_actions_version: 0.12.13
        tf_actions_subcommand: "plan"
-       args: -var="client_secret=${{ secrets.clientSecret }}"
-             -var="client_id=${{ secrets.clientId }}"
-             -var="tenant_id=${{ secrets.tenantId }}"
-             -var="sub=${{ secrets.sub }}"
       env:
-       ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
        ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
        ARM_TENANT_ID: ${{ secrets.tenantId }}
        ARM_CLIENT_ID: ${{ secrets.clientId }}
@@ -43,7 +38,8 @@ jobs:
       with:
        tf_actions_version: 0.12.13
        tf_actions_subcommand: "apply"
-       args: -var="client_secret=${{ secrets.clientSecret }}"
-             -var="client_id=${{ secrets.clientId }}"
-             -var="tenant_id=${{ secrets.tenantId }}"
-             -var="sub=${{ secrets.sub }}"    
+      env:
+       ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
+       ARM_TENANT_ID: ${{ secrets.tenantId }}
+       ARM_CLIENT_ID: ${{ secrets.clientId }}
+       ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
