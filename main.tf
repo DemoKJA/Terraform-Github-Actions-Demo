@@ -59,7 +59,7 @@ resource "azurerm_storage_account" "storage" {
 resource "azurerm_role_assignment" "role" {
 	scope                = azurerm_resource_group.rg.id
 	role_definition_name = "Storage Blob Data Contributor"
-    principal_id         = "0b2df119-bc75-4148-a92d-b1a5c4132a7a"  #** Should be the service Principal on the resource groun and take ObjectID from Kroger to place here
+    principal_id         = "0b2df119-bc75-4148-a92d-b1a5c4132a7a"  #** Should be the service Principa on the resource groun and take ObjectID from Kroger to place here
 }
 
 # File system
