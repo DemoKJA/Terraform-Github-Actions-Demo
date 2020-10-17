@@ -43,7 +43,7 @@ resource "azurerm_data_factory" "adf" {
 #* BELOW IS USED TO CREATE A SYNAPSE POOL, TODD WALKER NOTED WE MAY BE ABLE TO SETUP ONE MANUALLU WITH THE TEAM
 /*
 
-#** Storage account ** will most likely replace with references to existing storage accounts
+#*** Storage account ** will most likely replace with references to existing storage accounts
 resource "azurerm_storage_account" "storage" {
   name                     = "${var.prefix}storage"
   resource_group_name      = azurerm_resource_group.rg.name
