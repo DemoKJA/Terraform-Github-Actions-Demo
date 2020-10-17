@@ -1,4 +1,3 @@
-
 variable "sub" { 
   type = string 
 }
