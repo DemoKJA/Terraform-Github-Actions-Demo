@@ -4,7 +4,6 @@ terraform {
     storage_account_name = "kjastorage"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
-    access_key           = ARM_ACCESS_KEY
   }
 }
 
