@@ -7,13 +7,11 @@ provider "azurerm" {
   features {}
 }
 
-terraform {
-  backend "azurerm" {
+backend "azurerm" {
     resource_group_name  = "kja-rg"
     storage_account_name = "kjastorage"
     container_name       = "tfstate"
     key                  = "prod.terraform.tfstate"
-  }
 }
 
 # Create a resource group
