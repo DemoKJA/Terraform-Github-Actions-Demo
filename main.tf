@@ -1,3 +1,9 @@
+# *Authentication managed with environmental variables pulled from github secrets:
+# ARM_TENANT_ID
+# ARM_SUBSCRIPTION_ID
+# ARM_CLIENT_ID
+# ARM_SUBSCRIPTION_ID
+
 provider "azurerm" {
   version = "2.31.1"
   features {}
