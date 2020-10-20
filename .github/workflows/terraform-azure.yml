@@ -1,6 +1,8 @@
 name: Terraform deploy to Azure
 
-on: [push]
+on:
+  [push]:
+  [workflow_dispatch]:
 
 jobs:
   build:
