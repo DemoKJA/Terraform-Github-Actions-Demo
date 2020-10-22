@@ -1,3 +1,4 @@
+# test
 name: Terraform deploy to Azure
 
 on: [push, workflow_dispatch]
