@@ -4,11 +4,6 @@
 # ARM_CLIENT_ID
 # ARM_CLIENT_SECRET -- Client Secret from Service Principal
 
-provider "azurerm" {
-  version = "2.31.1"
-  features {}
-}
-
 /*
 # Create a resource groups
 resource "azurerm_resource_group" "rg" {
@@ -18,23 +13,24 @@ resource "azurerm_resource_group" "rg" {
 */
 
 
-/*
-# Create Azure Analysis Services
-resource "azurerm_analysis_services_server" "analysisserver" {
-  name                    = "${var.prefix}aas"
-  location                = azurerm_resource_group.rg.location
-  resource_group_name     = azurerm_resource_group.rg.name
-  sku                     = "S0"
-  enable_power_bi_service = true
+
+# # Create Azure Analysis Services
+# resource "azurerm_analysis_services_server" "analysisserver" {
+#   name                    = "${var.prefix}aas"
+#   location                = azurerm_resource_group.rg.location
+#   resource_group_name     = azurerm_resource_group.rg.name
+#   sku                     = "S0"
+#   enable_power_bi_service = true
   
-  ipv4_firewall_rule {
-    name        = "myRule1"
-    range_start = "0.0.0.0"
-    range_end   = "255.255.255.255"
-  }
+#   ipv4_firewall_rule {
+#     name        = "myRule1"
+#     range_start = "0.0.0.0"
+#     range_end   = "255.255.255.255"
+#   }
   
-}
-*/
+# }
+
+
 
 /*
 # Create Azure Datafactory
