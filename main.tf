@@ -4,13 +4,13 @@
 # ARM_CLIENT_ID
 # ARM_CLIENT_SECRET -- Client Secret from Service Principal
 
-/*
+
 # Create a resource groups
 resource "azurerm_resource_group" "rg" {
   name     = var.prefix
   location = var.location
 }
-*/
+
 
 
 
