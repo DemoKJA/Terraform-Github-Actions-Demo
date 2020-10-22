@@ -17,6 +17,7 @@ resource "azurerm_resource_group" "rg" {
 }
 */
 
+
 /*
 # Create Azure Analysis Services
 resource "azurerm_analysis_services_server" "analysisserver" {
