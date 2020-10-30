@@ -6,10 +6,19 @@
 
 
 # Create a resource groups
-# resource "azurerm_resource_group" "rg" {
-#   name     = var.prefix
-#   location = var.location
-# }
+resource "azurerm_resource_group" "rg" {
+  name     = var.prefix
+  location = var.location
+}
+
+resource "azurerm_sql_server" "example" {
+  name                         = "${var.prefix}-server"
+  resource_group_name          = azurerm_resource_group.rg.name
+  location                     = azurerm_resource_group.rg.location
+  version                      = "12.0"
+  administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
+  administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
+}
 
 
 # # Create Azure Analysis Services
@@ -19,13 +28,13 @@
 #   resource_group_name     = azurerm_resource_group.rg.name
 #   sku                     = "S0"
 #   enable_power_bi_service = true
-  
+
 #   ipv4_firewall_rule {
 #     name        = "myRule1"
 #     range_start = "0.0.0.0"
 #     range_end   = "255.255.255.255"
 #   }
-  
+
 # }
 
 
