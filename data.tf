@@ -4,6 +4,10 @@ data "azurerm_key_vault" "keyvault" {
   resource_group_name = "kja-rg"
 }
 
+# Secrets
+# admin-demo-user: demoadmin
+# admin-demo-psw: demoP@$$word
+
 # Retrieve keyvault sql server username
 data "azurerm_key_vault_secret" "sqlserverusr" {
   name         = "admin-demo-user"
