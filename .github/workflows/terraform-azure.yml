@@ -22,33 +22,15 @@ jobs:
       with:
        tf_actions_version: 0.13.4
        tf_actions_subcommand: "init"
-      # env:
-      #  ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
-      #  ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
-      #  ARM_TENANT_ID: ${{ secrets.tenantId }}
-      #  ARM_CLIENT_ID: ${{ secrets.clientId }}
-      #  ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
 
     - name: "Terraform Plan"
       uses: hashicorp/terraform-github-actions@master
       with:
        tf_actions_version: 0.13.4
        tf_actions_subcommand: "plan"
-      # env:
-      #  ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
-      #  ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
-      #  ARM_TENANT_ID: ${{ secrets.tenantId }}
-      #  ARM_CLIENT_ID: ${{ secrets.clientId }}
-      #  ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
                   
     - name: "Terraform Apply"
       uses: hashicorp/terraform-github-actions@master
       with:
        tf_actions_version: 0.13.4
        tf_actions_subcommand: "apply"
-      # env:
-      #  ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
-      #  ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
-      #  ARM_TENANT_ID: ${{ secrets.tenantId }}
-      #  ARM_CLIENT_ID: ${{ secrets.clientId }}
-      #  ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
