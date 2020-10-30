@@ -20,6 +20,14 @@ resource "azurerm_sql_server" "example" {
   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
 }
 
+# Then create a datafactory
+# Create Azure Datafactory
+resource "azurerm_data_factory" "adf" {
+  name                = "${var.prefix}DF"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
 
 # # Create Azure Analysis Services
 # resource "azurerm_analysis_services_server" "analysisserver" {
@@ -39,14 +47,7 @@ resource "azurerm_sql_server" "example" {
 
 
 
-/*
-# Create Azure Datafactory
-resource "azurerm_data_factory" "adf" {
-  name                = "${var.prefix}DF"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-}
-*/
+
 
 #* BELOW IS USED TO CREATE A SYNAPSE POOL, TODD WALKER NOTED WE MAY BE ABLE TO SETUP ONE MANUALLU WITH THE TEAM
 /*
