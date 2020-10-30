@@ -1,7 +1,7 @@
 # Retrieve already created keyvault resource 
 data "azurerm_key_vault" "keyvault" {
   name                = "kv-demo-kja"
-  resource_group_name = "kj-rg"
+  resource_group_name = "kja-rg"
 }
 
 # Retrieve keyvault sql server username
