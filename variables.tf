@@ -8,6 +8,6 @@ variable "location" {
 
 variable "prefix" {
   type    = string
-  default = "kjdemo"
+  default = "kjdemo1"
 }
 
