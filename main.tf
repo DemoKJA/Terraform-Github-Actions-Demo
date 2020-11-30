@@ -5,20 +5,20 @@
 # ARM_CLIENT_SECRET -- Client Secret from Service Principal
 
 
-# Create a resource groups
-resource "azurerm_resource_group" "rg" {
-  name     = var.prefix
-  location = var.location
-}
+# # Create a resource groups
+# resource "azurerm_resource_group" "rg" {
+#   name     = var.prefix
+#   location = var.location
+# }
 
-resource "azurerm_sql_server" "sqlserver" {
-  name                         = "${var.prefix}-server"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
-  version                      = "12.0"
-  administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
-  administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
-}
+# resource "azurerm_sql_server" "sqlserver" {
+#   name                         = "${var.prefix}-server"
+#   resource_group_name          = azurerm_resource_group.rg.name
+#   location                     = azurerm_resource_group.rg.location
+#   version                      = "12.0"
+#   administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
+#   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
+# }
 
 # # Then create a datafactory
 # # Create Azure Datafactory
