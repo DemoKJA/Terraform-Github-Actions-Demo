@@ -11,22 +11,22 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-resource "azurerm_sql_server" "sqlserver" {
-  name                         = "${var.prefix}-server"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
-  version                      = "12.0"
-  administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
-  administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
-}
-
-# # Then create a datafactory
-# # Create Azure Datafactory
-# resource "azurerm_data_factory" "adf" {
-#   name                = "${var.prefix}DF"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
+# resource "azurerm_sql_server" "sqlserver" {
+#   name                         = "${var.prefix}-server"
+#   resource_group_name          = azurerm_resource_group.rg.name
+#   location                     = azurerm_resource_group.rg.location
+#   version                      = "12.0"
+#   administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
+#   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
 # }
+
+# Then create a datafactory
+# Create Azure Datafactory
+resource "azurerm_data_factory" "adf" {
+  name                = "${var.prefix}DF"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
 
 
 # # Create Azure Analysis Services
