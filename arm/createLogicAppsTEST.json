@@ -2,9 +2,8 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "workflows_tsa_logic_dgtlbi_stage_001_name": {
-            "defaultValue": "[parameters('logicAppName')]",
-            "type": "String"
+        "logic_app_name": {
+            "type": "string"
         }
     },
     "variables": {},
@@ -12,7 +11,7 @@
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "[parameters('workflows_tsa_logic_dgtlbi_stage_001_name')]",
+            "name": "[parameters('logic_app_name')]",
             "location": "eastus2",
             "identity": {
                 "principalId": "", 
