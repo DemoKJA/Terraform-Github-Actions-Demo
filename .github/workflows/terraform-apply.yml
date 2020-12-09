@@ -1,6 +1,7 @@
-name: Demo Terraform deploy to Azure
+name: Azure Apply
 
-on: [push, workflow_dispatch]
+on: 
+  workflow_dispatch:
 
 env:
   ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
