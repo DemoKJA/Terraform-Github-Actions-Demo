@@ -31,7 +31,7 @@ resource "azurerm_sql_server" "sqlserver" {
 resource "azurerm_resource_group_template_deployment" "templateTEST" {
   name                = "arm-Deployment"
   resource_group_name = azurerm_resource_group.rg.name
-  deployment_mode     = "Incremental" # If complete, will blow away everythin in the resource group not in the ARM template
+  deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/arm/createLogicAppsTEST.json")
 
 }
