@@ -20,6 +20,15 @@ resource "azurerm_sql_server" "sqlserver" {
   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
 }
 
+# Create logic apps with ARM imbedded in terraform
+resource "azurerm_resource_group_template_deployment" "templateTEST" {
+  name                = "ARM Deployment"
+  resource_group_name = azurerm_resource_group.rg.name
+  deployment_mode     = "Incremental" # If complete, will blow away everythin in the resource group not in the ARM template
+  template_content    = "./arm/createLogicAppsTEST.json"
+}
+
+
 # # Then create a datafactory
 # # Create Azure Datafactory
 # resource "azurerm_data_factory" "adf" {

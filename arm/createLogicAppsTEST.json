@@ -1,0 +1,374 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "workflows_tsa_logic_dgtlbi_stage_001_name": {
+            "defaultValue": "tsa-logic-dgtlbi-stage-001",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('workflows_tsa_logic_dgtlbi_stage_001_name')]",
+            "location": "eastus2",
+            "identity": {
+                "principalId": "662d962f-c9bf-4960-bce4-a3a5926ce0b0",
+                "tenantId": "8331e14a-9134-4288-bf5a-5e2c8412f074",
+                "type": "SystemAssigned"
+            },
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {},
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {
+                                    "properties": {
+                                        "body": {
+                                            "type": "string"
+                                        },
+                                        "callBackUri": {
+                                            "type": "string"
+                                        },
+                                        "partition": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "actions": {
+                        "If_Processing_was_unsuccessful": {
+                            "actions": {
+                                "ADF_Callback_Success": {
+                                    "runAfter": {},
+                                    "type": "Http",
+                                    "inputs": {
+                                        "body": {
+                                            "Output": {
+                                                "PartitionExecuted": "@{triggerBody()?['partition']}"
+                                            },
+                                            "StatusCode": "200"
+                                        },
+                                        "method": "POST",
+                                        "uri": "@triggerBody()?['callBackUri']"
+                                    }
+                                }
+                            },
+                            "runAfter": {
+                                "Until_processing_is_finished": [
+                                    "Succeeded",
+                                    "Skipped",
+                                    "Failed",
+                                    "TimedOut"
+                                ]
+                            },
+                            "else": {
+                                "actions": {
+                                    "ADF_Callback_Failure": {
+                                        "runAfter": {},
+                                        "type": "Http",
+                                        "inputs": {
+                                            "body": {
+                                                "Error": {
+                                                    "ErrorCode": "AasFailed",
+                                                    "Message": "AAS Failed to Run"
+                                                },
+                                                "Output": {
+                                                    "PartitionExecuted": "@{triggerBody()?['partition']}"
+                                                },
+                                                "StatusCode": "405"
+                                            },
+                                            "method": "POST",
+                                            "uri": "@triggerBody()?['callBackUri']"
+                                        }
+                                    },
+                                    "Terminate": {
+                                        "runAfter": {
+                                            "ADF_Callback_Failure": [
+                                                "Succeeded"
+                                            ]
+                                        },
+                                        "type": "Terminate",
+                                        "inputs": {
+                                            "runError": {
+                                                "code": "500",
+                                                "message": "Refresh failed with unknown status."
+                                            },
+                                            "runStatus": "Failed"
+                                        }
+                                    }
+                                }
+                            },
+                            "expression": {
+                                "and": [
+                                    {
+                                        "equals": [
+                                            "@variables('processingWasSuccessful')",
+                                            "@true"
+                                        ]
+                                    }
+                                ]
+                            },
+                            "type": "If"
+                        },
+                        "Initialize_processingFinished_variable": {
+                            "runAfter": {
+                                "Initialize_upscalingFinished_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "processingFinished",
+                                        "type": "boolean",
+                                        "value": "@false"
+                                    }
+                                ]
+                            }
+                        },
+                        "Initialize_processingWasSuccessful_variable": {
+                            "runAfter": {
+                                "Initialize_processingFinished_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "processingWasSuccessful",
+                                        "type": "boolean",
+                                        "value": "@false"
+                                    }
+                                ]
+                            }
+                        },
+                        "Initialize_upscalingFinished_variable": {
+                            "runAfter": {},
+                            "type": "InitializeVariable",
+                            "inputs": {
+                                "variables": [
+                                    {
+                                        "name": "resourceName",
+                                        "type": "boolean",
+                                        "value": "@false"
+                                    }
+                                ]
+                            }
+                        },
+                        "POST_Refresh": {
+                            "runAfter": {
+                                "Initialize_processingWasSuccessful_variable": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "Http",
+                            "inputs": {
+                                "authentication": {
+                                    "audience": "https://*.asazure.windows.net",
+                                    "type": "ManagedServiceIdentity"
+                                },
+                                "body": {
+                                    "CommitMode": "transactional",
+                                    "MaxParallelism": 6,
+                                    "Objects": [
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Apr 2020",
+                                            "table": "mvp Item"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Jun 2020",
+                                            "table": "mvp Item"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Jul 2020",
+                                            "table": "mvp Item"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Aug 2020",
+                                            "table": "mvp Item"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Sep 2020",
+                                            "table": "mvp Item"
+                                        },
+                                        {
+                                            "database": "MVP",
+                                            "partition": "Nov 2020",
+                                            "table": "mvp Item"
+                                        }
+                                    ],
+                                    "RetryCount": 3,
+                                    "Type": "Full"
+                                },
+                                "method": "POST",
+                                "uri": "https://aspaaseastus2.asazure.windows.net/servers/tsaasdgtlbistage001/models/MVP/refreshes"
+                            },
+                            "operationOptions": "DisableAsyncPattern"
+                        },
+                        "Until_processing_is_finished": {
+                            "actions": {
+                                "Delay_to_wait_for_processing": {
+                                    "runAfter": {},
+                                    "type": "Wait",
+                                    "inputs": {
+                                        "interval": {
+                                            "count": 30,
+                                            "unit": "Second"
+                                        }
+                                    }
+                                },
+                                "GET_refresh_status": {
+                                    "runAfter": {
+                                        "Delay_to_wait_for_processing": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "Http",
+                                    "inputs": {
+                                        "authentication": {
+                                            "audience": "https://*.asazure.windows.net",
+                                            "type": "ManagedServiceIdentity"
+                                        },
+                                        "method": "GET",
+                                        "uri": "@{outputs('POST_Refresh')['headers']?['Location']}"
+                                    }
+                                },
+                                "Parse_GET_refresh_status": {
+                                    "runAfter": {
+                                        "GET_refresh_status": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "type": "ParseJson",
+                                    "inputs": {
+                                        "content": "@body('GET_refresh_status')",
+                                        "schema": {
+                                            "properties": {
+                                                "currentRefreshType": {
+                                                    "type": "string"
+                                                },
+                                                "endTime": {
+                                                    "type": "string"
+                                                },
+                                                "startTime": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "type": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "Switch_on_processing_status": {
+                                    "runAfter": {
+                                        "Parse_GET_refresh_status": [
+                                            "Succeeded"
+                                        ]
+                                    },
+                                    "cases": {
+                                        "inProgress": {
+                                            "case": "inProgress",
+                                            "actions": {}
+                                        },
+                                        "notStarted": {
+                                            "case": "notStarted",
+                                            "actions": {}
+                                        },
+                                        "succeeded": {
+                                            "case": "succeeded",
+                                            "actions": {
+                                                "Set_processingFinished_variable_to_true": {
+                                                    "runAfter": {},
+                                                    "type": "SetVariable",
+                                                    "inputs": {
+                                                        "name": "processingFinished",
+                                                        "value": "@true"
+                                                    }
+                                                },
+                                                "Set_processingWasSuccessful_to_true": {
+                                                    "runAfter": {
+                                                        "Set_processingFinished_variable_to_true": [
+                                                            "Succeeded"
+                                                        ]
+                                                    },
+                                                    "type": "SetVariable",
+                                                    "inputs": {
+                                                        "name": "processingWasSuccessful",
+                                                        "value": "@true"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "default": {
+                                        "actions": {
+                                            "Set_processingFinished_variable_to_true_after_unknown_status": {
+                                                "runAfter": {},
+                                                "type": "SetVariable",
+                                                "inputs": {
+                                                    "name": "processingFinished",
+                                                    "value": "@true"
+                                                }
+                                            },
+                                            "Set_processingWasSuccessful_to_false": {
+                                                "runAfter": {
+                                                    "Set_processingFinished_variable_to_true_after_unknown_status": [
+                                                        "Succeeded"
+                                                    ]
+                                                },
+                                                "type": "SetVariable",
+                                                "inputs": {
+                                                    "name": "processingWasSuccessful",
+                                                    "value": "@false"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    "expression": "@body('Parse_GET_refresh_status')?['status']",
+                                    "type": "Switch"
+                                }
+                            },
+                            "runAfter": {
+                                "POST_Refresh": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "expression": "@equals(variables('processingFinished'), true)",
+                            "limit": {
+                                "count": 1200,
+                                "timeout": "PT12H"
+                            },
+                            "type": "Until"
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {}
+            }
+        }
+    ]
+}
