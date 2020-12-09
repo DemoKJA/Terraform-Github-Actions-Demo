@@ -43,8 +43,8 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
             "name": "[parameters('workflows_tsa_logic_dgtlbi_stage_001_name')]",
             "location": "eastus2",
             "identity": {
-                "principalId": "662d962f-c9bf-4960-bce4-a3a5926ce0b0",
-                "tenantId": "8331e14a-9134-4288-bf5a-5e2c8412f074",
+                "principalId": null,
+                "tenantId": null,
                 "type": "SystemAssigned"
             },
             "properties": {
