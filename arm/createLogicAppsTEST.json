@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "workflows_tsa_logic_dgtlbi_stage_001_name": {
-            "defaultValue": "tsa-logic-dgtlbi-stage-001",
+            "defaultValue": "[parameters('logicAppName')]",
             "type": "String"
         }
     },

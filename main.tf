@@ -33,6 +33,9 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   resource_group_name = azurerm_resource_group.rg.name
   deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/arm/createLogicAppsTEST.json")
+  parameters = {
+    "logicAppName" = "logic-${var.prefix}-"
+  }
 
 }
 
