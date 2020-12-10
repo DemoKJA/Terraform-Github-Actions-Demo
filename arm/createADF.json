@@ -3,8 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "factoryName": {
-            "type": "string",
-            "metadata": "Data Factory name"
+            "type": "string"
         },
         "AzureKeyVault_properties_typeProperties_baseUrl": {
             "type": "string"
