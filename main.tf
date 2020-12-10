@@ -66,6 +66,13 @@ resource "azurerm_data_factory" "adf" {
   name                = "adf-${var.prefix}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+
+  github_configuration {
+    account_name    = "demokja"
+    branch_name     = "holder-colab"
+    repository_name = "Terraform-Github-Actions-Demo"
+    root_folder     = "/ADF-ARM"
+  }
 }
 
 
