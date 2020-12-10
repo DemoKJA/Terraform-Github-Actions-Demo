@@ -1,0 +1,28 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "Wait Master",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": {
+						"value": "@variables('TotalWaitTime')",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"TotalWaitTime": {
+				"type": "Boolean",
+				"defaultValue": "1"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2020-12-10T15:24:22Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
