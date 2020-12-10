@@ -45,7 +45,8 @@ resource "azurerm_sql_server" "sqlserver" {
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
   resource_group_name = azurerm_resource_group.rg.name
-  deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
+  depends_on          = [azurerm_data_factory.adf] # Since the expored ARM template is not creating the ADF
+  deployment_mode     = "Incremental"              # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/arm/createADF.json")
   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
     "factoryName" : {
@@ -55,7 +56,7 @@ resource "azurerm_resource_group_template_deployment" "ARMADF" {
       "value" : "https://kv-demo-kja.vault.azure.net/"
     }
   })
-  depends_on = [azurerm_data_factory.adf] # Since the expored ARM template is not creating the ADF
+
 }
 
 
