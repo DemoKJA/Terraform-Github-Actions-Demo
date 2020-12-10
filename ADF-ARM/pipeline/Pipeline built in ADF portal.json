@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ADF Portal - Wait",
+				"name": "ADF Portal - Wait ok",
 				"type": "Wait",
 				"dependsOn": [],
 				"userProperties": [],
