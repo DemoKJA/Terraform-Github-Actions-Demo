@@ -1,0 +1,19 @@
+{
+	"name": "Pipeline built in ADF portal",
+	"properties": {
+		"activities": [
+			{
+				"name": "ADF Portal - Wait",
+				"type": "Wait",
+				"dependsOn": [],
+				"userProperties": [],
+				"typeProperties": {
+					"waitTimeInSeconds": 1
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2020-12-10T16:22:18Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
