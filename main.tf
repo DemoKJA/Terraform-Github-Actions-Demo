@@ -55,17 +55,17 @@ resource "azurerm_resource_group_template_deployment" "ARMADF" {
       "value" : "https://kv-demo-kja.vault.azure.net/"
     }
   })
-
+  depends_on = [azurerm_data_factory.adf] # Since the expored ARM template is not creating the ADF
 }
 
 
-# # Then create a datafactory
-# # Create Azure Datafactory
-# resource "azurerm_data_factory" "adf" {
-#   name                = "${var.prefix}DF"
-#   location            = azurerm_resource_group.rg.location
-#   resource_group_name = azurerm_resource_group.rg.name
-# }
+# Then create a datafactory
+# Create Azure Datafactory
+resource "azurerm_data_factory" "adf" {
+  name                = "adf-${var.prefix}"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
 
 
 # # Create Azure Analysis Services
