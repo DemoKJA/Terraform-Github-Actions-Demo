@@ -21,7 +21,8 @@ resource "azurerm_resource_group" "rg" {
 # }
 
 # Create logic apps with ARM imbedded in terraform
-# MAKE SURE to replace principalId and tenantId with "" AND remove the 'defaultValue' line within the variables
+# 1) Create a logic app with the same name as the one managed in ARM template passing parameter to it
+# 2) In ARM template replace principalId and tenantId with "" AND remove the 'defaultValue' line within the variables
 # and make sure to :
 # "identity": {
 #     "principalId": "", 
@@ -29,6 +30,16 @@ resource "azurerm_resource_group" "rg" {
 #     "type": "SystemAssigned"
 # },
 
+# 3) See below:
+
+# Logic app create:
+resource "azurerm_logic_app_workflow" "logicappaas" {
+  name                = "logic-${var.prefix}" # added as it will refresh analysis services model
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
+
+# Then detailed ARM deployment of the same name parameter:
 resource "azurerm_resource_group_template_deployment" "templateTEST" {
   name                = "arm-Deployment"
   resource_group_name = azurerm_resource_group.rg.name
@@ -41,11 +52,6 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
 
 }
 
-resource "azurerm_logic_app_workflow" "logicappaas" {
-  name                = "logic-${var.prefix}" # added as it will refresh analysis services model
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-}
 
 
 # # Output the ARM deployment information:
