@@ -41,6 +41,14 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
 
 }
 
+# Output the ARM deployment information:
+output "logic-app-run-AAS" {
+  value = azurerm_resource_group_template_deployment.templateTEST.output_content
+}
+
+output "logic-app-run-AAS-jsonencode" {
+  value = jsonendode(azurerm_resource_group_template_deployment.templateTEST.output_content)
+}
 
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
@@ -56,7 +64,6 @@ resource "azurerm_resource_group_template_deployment" "ARMADF" {
       "value" : "https://kv-demo-kja.vault.azure.net/"
     }
   })
-
 }
 
 
@@ -77,21 +84,21 @@ resource "azurerm_data_factory" "adf" {
 }
 
 
-# # Create Azure Analysis Services
-# resource "azurerm_analysis_services_server" "analysisserver" {
-#   name                    = "${var.prefix}aas"
-#   location                = azurerm_resource_group.rg.location
-#   resource_group_name     = azurerm_resource_group.rg.name
-#   sku                     = "S0"
-#   enable_power_bi_service = true
+# Create Azure Analysis Services
+resource "azurerm_analysis_services_server" "analysisserver" {
+  name                    = "${var.prefix}aas"
+  location                = azurerm_resource_group.rg.location
+  resource_group_name     = azurerm_resource_group.rg.name
+  sku                     = "S0"
+  enable_power_bi_service = true
 
-#   ipv4_firewall_rule {
-#     name        = "myRule1"
-#     range_start = "0.0.0.0"
-#     range_end   = "255.255.255.255"
-#   }
+  ipv4_firewall_rule {
+    name        = "myRule1"
+    range_start = "0.0.0.0"
+    range_end   = "255.255.255.255"
+  }
 
-# }
+}
 
 
 
