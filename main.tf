@@ -34,9 +34,7 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/arm/createLogicAppsTEST.json")
   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
-    "logic_app_name" : {
-      "value" : "logic-${var.prefix}"
-    }
+    "logic_app_name" = { "value" = "logic-${var.prefix}" }
   })
 
 }
@@ -57,12 +55,8 @@ resource "azurerm_resource_group_template_deployment" "ARMADF" {
   deployment_mode     = "Incremental"              # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/adf-kjdemo/ARMTemplateForFactory.json")
   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
-    "factoryName" : {
-      "value" : "adf-${var.prefix}"
-    },
-    "AzureKeyVault_properties_typeProperties_baseUrl" : {
-      "value" : "https://kv-demo-kja.vault.azure.net/"
-    }
+    "factoryName"                                     = { "value" = "adf-${var.prefix}" }
+    "AzureKeyVault_properties_typeProperties_baseUrl" = { "value" = "https://kv-demo-kja.vault.azure.net/" }
   })
 }
 
