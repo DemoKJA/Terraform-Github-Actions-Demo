@@ -41,14 +41,14 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
 
 }
 
-# Output the ARM deployment information:
-output "logic-app-run-AAS" {
-  value = azurerm_resource_group_template_deployment.templateTEST.output_content
-}
+# # Output the ARM deployment information:
+# output "logic-app-run-AAS" {
+#   value = azurerm_resource_group_template_deployment.templateTEST.output_content
+# }
 
-output "logic-app-run-AAS-jsonencode" {
-  value = jsonencode(azurerm_resource_group_template_deployment.templateTEST.output_content)
-}
+# output "logic-app-run-AAS-jsonencode" {
+#   value = jsonencode(azurerm_resource_group_template_deployment.templateTEST.output_content)
+# }
 
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
