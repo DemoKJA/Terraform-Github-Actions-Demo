@@ -31,6 +31,7 @@ resource "azurerm_resource_group" "rg" {
 resource "azurerm_resource_group_template_deployment" "templateTEST" {
   name                = "arm-Deployment"
   resource_group_name = azurerm_resource_group.rg.name
+  depends_on          = [azurerm_logic_app_workflow.logicappaas]
   deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/arm/createLogicAppsTEST.json")
   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
@@ -38,6 +39,13 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   })
 
 }
+
+resource "azurerm_logic_app_workflow" "logicappaas" {
+  name                = "logic-${var.prefix}" # added as it will refresh analysis services model
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
 
 # # Output the ARM deployment information:
 # output "logic-app-run-AAS" {
@@ -55,7 +63,7 @@ resource "azurerm_resource_group_template_deployment" "ARMADF" {
   deployment_mode     = "Incremental"              # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/adf-kjdemo/ARMTemplateForFactory.json")
   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
-    factoryName                                     = { value = "adf-${var.prefix}-demo" }
+    factoryName                                     = { value = "adf-${var.prefix}-2" }
     AzureKeyVault_properties_typeProperties_baseUrl = { value = "https://kv-demo-kja.vault.azure.net/" }
   })
 
@@ -65,9 +73,12 @@ resource "azurerm_resource_group_template_deployment" "ARMADF" {
 # Then create a datafactory
 # Create Azure Datafactory
 resource "azurerm_data_factory" "adf" {
-  name                = "adf-${var.prefix}-demo"
+  name                = "adf-${var.prefix}-2"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
+  identity {
+    type = "SystemAssigned"
+  }
 
   github_configuration {
     account_name    = "demokja"
