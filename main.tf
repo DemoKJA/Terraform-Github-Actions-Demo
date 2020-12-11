@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "rg" {
 # }
 
 # Create logic apps with ARM imbedded in terraform
-# MAKE SURE to replace principalId and tenantId with "":
+# MAKE SURE to replace principalId and tenantId with "" AND the default name within the variables:
 # "identity": {
 #     "principalId": "", 
 #     "tenantId": "",
