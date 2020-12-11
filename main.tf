@@ -43,7 +43,7 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
 resource "azurerm_logic_app_workflow" "logicappaas" {
   name                = "logic-${var.prefix}" # added as it will refresh analysis services model
   location            = var.location
-  resource_group_name = var.resource_group_name
+  resource_group_name = azurerm_resource_group.rg.name
 }
 
 
