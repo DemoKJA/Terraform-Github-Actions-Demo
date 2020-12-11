@@ -3,6 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "logic_app_name": {
+            "defaultValue": "tsa-logic-dgtlbi-stage-001",
             "type": "string"
         }
     },
