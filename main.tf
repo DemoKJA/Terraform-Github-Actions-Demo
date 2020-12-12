@@ -44,13 +44,10 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   name                = "arm-Deployment"
   resource_group_name = azurerm_resource_group.rg.name
   #depends_on          = [azurerm_logic_app_workflow.logicappaas]
-  deployment_mode  = "Incremental"
-  template_content = templatefile("${path.module}/arm/createLogicAppsTEST.json", {})
-  parameters_content = templatefile("${path.module}/arm/LogicAppsParameters.json",
-    {
-      logicappname = "logic-${var.prefix}"
-    }
-  )
+  deployment_mode = "Incremental"
+  template_content = templatefile("${path.module}/arm/createLogicAppsTEST.json", {
+    logicappname = "logic-${var.prefix}"
+  })
 }
 
 # OLD

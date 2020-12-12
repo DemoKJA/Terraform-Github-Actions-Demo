@@ -3,7 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "logic_app_name": {
-            "type": "string"
+            "type": "string",
+            "defaultValue": "${logicappname}"
         }
     },
     "variables": {},
