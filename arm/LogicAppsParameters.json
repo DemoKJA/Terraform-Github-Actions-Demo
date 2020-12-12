@@ -1,7 +1,5 @@
 {
-	"parameters": {
-        "logic_app_name": {
-            "value": "${logic_app_name}"
-        }
-	}
+    "logic_app_name": {
+        "value": "${logicappname}"
+    }
 }
