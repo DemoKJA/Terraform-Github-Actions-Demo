@@ -39,34 +39,32 @@ resource "azurerm_logic_app_workflow" "logicappaas" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
+
+# Then detailed ARM deployment of the same name parameter:
 resource "azurerm_resource_group_template_deployment" "templateTEST" {
   name                = "arm-Deployment"
   resource_group_name = azurerm_resource_group.rg.name
   depends_on          = [azurerm_logic_app_workflow.logicappaas]
-  deployment_mode     = "Incremental"
+  deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_content    = file("${path.module}/arm/createLogicAppsTEST.json")
-  parameters_content = templatefile("${path.module}/arm/LogicAppsParameters.json",
-    {
-      logic_app_name = "logic-${var.prefix}"
-    }
-  )
+  parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
+    logic_app_name = "logic-${var.prefix}"
+  })
 }
+#logic_app_name = { value = "logic-${var.prefix}" }
 
-# OLD
-# Then detailed ARM deployment of the same name parameter:
 # resource "azurerm_resource_group_template_deployment" "templateTEST" {
 #   name                = "arm-Deployment"
 #   resource_group_name = azurerm_resource_group.rg.name
 #   depends_on          = [azurerm_logic_app_workflow.logicappaas]
-#   deployment_mode     = "Incremental" # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
+#   deployment_mode     = "Incremental"
 #   template_content    = file("${path.module}/arm/createLogicAppsTEST.json")
-#   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
-#     logic_app_name = { value = "logic-${var.prefix}" }
-#   })
-
+#   parameters_content = templatefile("${path.module}/arm/LogicAppsParameters.json",
+#     {
+#       logic_app_name = "logic-${var.prefix}"
+#     }
+#   )
 # }
-
-
 
 # # Output the ARM deployment information:
 # output "logic-app-run-AAS" {
