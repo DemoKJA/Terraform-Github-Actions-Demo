@@ -1,5 +1,0 @@
-{
-    "logic_app_name": {
-        "value": "${logicappname}"
-    }
-}
