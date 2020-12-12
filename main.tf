@@ -104,7 +104,7 @@ resource "azurerm_data_factory" "adf" {
   github_configuration {
     account_name    = "demokja"
     git_url         = "https://github.com"
-    branch_name     = "holder-colab"
+    branch_name     = "holder-colab" # Branch where actual version and work is done, note the 'main', which is what will be used to publich ARM template to
     repository_name = "Terraform-Github-Actions-Demo"
     root_folder     = "/ADF-ARM"
   }
