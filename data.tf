@@ -19,3 +19,11 @@ data "azurerm_key_vault_secret" "sqlserverpw" {
   name         = "admin-demo-psw"
   key_vault_id = data.azurerm_key_vault.keyvault.id
 }
+
+
+# Attempt to retrieve objectID and applicationID for Active Directory:
+data "azuread_application" "logicappdata" {
+  depends_on = [azurerm_resource_group_template_deployment.templateTEST]
+  name       = "logic-${var.prefix}"
+
+}

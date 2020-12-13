@@ -45,13 +45,14 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
 }
 
 # Output the ARM deployment information:
-output "logic-app-output-principalId" {
-  value = jsonencode(azurerm_resource_group_template_deployment.templateTEST.output_content).principalId.value
+output "logic_app_ad_application_id" {
+  value = data.azuread_application.logicappdata.application_id
 }
 
-output "logic-app-output-tenantId" {
-  value = jsonencode(azurerm_resource_group_template_deployment.templateTEST.output_content).tenantId.value
+output "logic_app_ad_object_id" {
+  value = data.azuread_application.logicappdata.object_id
 }
+
 
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
