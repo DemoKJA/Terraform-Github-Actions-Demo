@@ -29,13 +29,17 @@ resource "azurerm_resource_group" "rg" {
 #     "tenantId": "",
 #     "type": "SystemAssigned"
 # },
-
-# 3) See below:
+# 3) Is ARM template, need to replace defaultValue in paramters with a paramterized variable passed ie. 
+# "logic_app_name": {
+#     "type": "string",
+#     "defaultValue": "${logicappname}"
+# }
+# See below:
 resource "azurerm_resource_group_template_deployment" "templateTEST" {
   name                = "arm-Deployment"
   resource_group_name = azurerm_resource_group.rg.name
   deployment_mode     = "Incremental"
-  template_content = templatefile("${path.module}/arm/createLogicAppsTEST.json", {
+  template_content = templatefile("${path.module}/arm/createLogicAppsTEST.json", {  # check within the 
     logicappname = "logic-${var.prefix}"
   })
 }
