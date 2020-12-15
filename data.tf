@@ -22,8 +22,8 @@ data "azurerm_key_vault_secret" "sqlserverpw" {
 
 
 # Attempt to retrieve objectID and applicationID for Active Directory:
-data "azuread_application" "logicappdata" {
-  depends_on = [azurerm_resource_group_template_deployment.templateTEST]
-  name       = "logic-${var.prefix}"
+# data "azuread_application" "logicappdata" {
+#   depends_on = [azurerm_resource_group_template_deployment.templateTEST]
+#   name       = "logic-${var.prefix}"
 
-}
+# }

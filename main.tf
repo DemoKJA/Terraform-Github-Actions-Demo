@@ -44,15 +44,6 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   })
 }
 
-# Output the ARM deployment information:
-output "logic_app_ad_application_id" {
-  value = data.azuread_application.logicappdata.application_id
-}
-
-output "logic_app_ad_object_id" {
-  value = data.azuread_application.logicappdata.object_id
-}
-
 
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
