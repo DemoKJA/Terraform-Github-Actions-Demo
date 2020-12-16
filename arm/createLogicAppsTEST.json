@@ -188,32 +188,32 @@
                                         {
                                             "database": "MVP",
                                             "partition": "Apr 2020",
-                                            "table": "mvp Item"
+                                            "table": "mvp Basket"
                                         },
                                         {
                                             "database": "MVP",
                                             "partition": "Jun 2020",
-                                            "table": "mvp Item"
+                                            "table": "mvp Basket"
                                         },
                                         {
                                             "database": "MVP",
                                             "partition": "Jul 2020",
-                                            "table": "mvp Item"
+                                            "table": "mvp Basket"
                                         },
                                         {
                                             "database": "MVP",
                                             "partition": "Aug 2020",
-                                            "table": "mvp Item"
+                                            "table": "mvp Basket"
                                         },
                                         {
                                             "database": "MVP",
                                             "partition": "Sep 2020",
-                                            "table": "mvp Item"
+                                            "table": "mvp Basket"
                                         },
                                         {
                                             "database": "MVP",
                                             "partition": "Nov 2020",
-                                            "table": "mvp Item"
+                                            "table": "mvp Basket"
                                         }
                                     ],
                                     "RetryCount": 3,
