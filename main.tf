@@ -42,8 +42,14 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   template_content = templatefile("${path.module}/arm/createLogicAppsTEST.json", { # check within the 
     logicappname = "logic-${var.prefix}"
   })
+  depends_on = [azurerm_logic_app_workflow.logicappaas]
 }
 
+resource "azurerm_logic_app_workflow" "logicappaas" {
+  name                = "logic-${var.prefix}" # added as it will refresh analysis services model 
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+}
 
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
