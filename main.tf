@@ -107,10 +107,18 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   admin_users             = ["kimiebi.akah@insight.com"]
   depends_on              = [azurerm_resource_group_template_deployment.templateTEST]
 
+
   ipv4_firewall_rule {
-    name        = "testRule1"
-    range_start = "0.0.0.0"
-    range_end   = "255.255.255.255"
+    name        = "testRuleIP1"
+    range_start = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 0)
+    range_end   = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 0)
+  }
+
+
+  ipv4_firewall_rule {
+    name        = "testRuleIP2"
+    range_start = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 1)
+    range_end   = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 1)
   }
 
 }
