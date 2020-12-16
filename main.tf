@@ -68,7 +68,7 @@ output "workflow_endpoint_ip_addresses" {
 
 
 output "workflow_outbound_ip_addresses" {
-  value = data.azurerm_logic_app_workflow.example.connector_outbound_ip_addresses
+  value = data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses
 }
 
 
