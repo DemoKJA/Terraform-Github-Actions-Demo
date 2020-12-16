@@ -27,3 +27,10 @@ data "azurerm_key_vault_secret" "sqlserverpw" {
 #   name       = "logic-${var.prefix}"
 
 # }
+
+# Logic appp data with ips
+data "azurerm_logic_app_workflow" "example" {
+  name                = "logic-${var.prefix}"
+  resource_group_name = azurerm_resource_group.rg.name
+}
+

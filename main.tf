@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "rg" {
 #   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
 # }
 
-# Create logic apps with ARM imbedded in terraform
+# Create logic apps with ARM imbedded in terraform, overloading the Terraform managed one
 # 1) Create a logic app with the same name as the one managed in ARM template passing parameter to it
 # 2) In ARM template replace principalId and tenantId with "" AND remove the 'defaultValue' line within the variables
 # and make sure to :
@@ -45,12 +45,35 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   depends_on = [azurerm_logic_app_workflow.logicappaas]
 }
 
+# Create teh terraform managed logic app
 resource "azurerm_logic_app_workflow" "logicappaas" {
   name                = "logic-${var.prefix}" # added as it will refresh analysis services model 
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 }
 
+# Output the ip's to see if correct data
+output "connector_outbound_ip_addresses" {
+  value = data.azurerm_logic_app_workflow.example.connector_outbound_ip_addresses
+}
+
+output "connector_endpoint_ip_addresses" {
+  value = data.azurerm_logic_app_workflow.example.connector_endpoint_ip_addresses
+}
+
+
+output "workflow_endpoint_ip_addresses" {
+  value = data.azurerm_logic_app_workflow.example.workflow_endpoint_ip_addresses
+}
+
+
+output "workflow_outbound_ip_addresses" {
+  value = data.azurerm_logic_app_workflow.example.connector_outbound_ip_addresses
+}
+
+
+
+# ADF ARM template detailed pipeline information
 resource "azurerm_resource_group_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
   resource_group_name = azurerm_resource_group.rg.name
