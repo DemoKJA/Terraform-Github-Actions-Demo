@@ -53,24 +53,13 @@ resource "azurerm_logic_app_workflow" "logicappaas" {
 }
 
 # Output the ip's to see if correct data
-output "connector_outbound_ip_addresses" {
-  value = data.azurerm_logic_app_workflow.example.connector_outbound_ip_addresses
+output "workflow_outbound_ip_addresses1" {
+  value = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 0)
 }
 
-output "connector_endpoint_ip_addresses" {
-  value = data.azurerm_logic_app_workflow.example.connector_endpoint_ip_addresses
+output "workflow_outbound_ip_addresses2" {
+  value = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 1)
 }
-
-
-output "workflow_endpoint_ip_addresses" {
-  value = data.azurerm_logic_app_workflow.example.workflow_endpoint_ip_addresses
-}
-
-
-output "workflow_outbound_ip_addresses" {
-  value = data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses
-}
-
 
 
 # ADF ARM template detailed pipeline information
@@ -108,22 +97,23 @@ resource "azurerm_data_factory" "adf" {
 }
 
 
-# # Create Azure Analysis Services
-# resource "azurerm_analysis_services_server" "analysisserver" {
-#   name                    = "${var.prefix}aas"
-#   location                = azurerm_resource_group.rg.location
-#   resource_group_name     = azurerm_resource_group.rg.name
-#   sku                     = "S0"
-#   enable_power_bi_service = true
-#   admin_users             = ["kimiebi.akah@insight.com"]
+# Create Azure Analysis Services
+resource "azurerm_analysis_services_server" "analysisserver" {
+  name                    = "${var.prefix}aas"
+  location                = azurerm_resource_group.rg.location
+  resource_group_name     = azurerm_resource_group.rg.name
+  sku                     = "S0"
+  enable_power_bi_service = true
+  admin_users             = ["kimiebi.akah@insight.com"]
+  depends_on              = [azurerm_resource_group_template_deployment.templateTEST]
 
-#   ipv4_firewall_rule {
-#     name        = "myRule1"
-#     range_start = "0.0.0.0"
-#     range_end   = "255.255.255.255"
-#   }
+  ipv4_firewall_rule {
+    name        = "testRule1"
+    range_start = "0.0.0.0"
+    range_end   = "255.255.255.255"
+  }
 
-# }
+}
 
 
 
