@@ -3,7 +3,7 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "workflows_logic_kjdemo_name": {
-            "defaultValue": "logic-kjdemo",
+            "defaultValue": "test",
             "type": "String"
         }
     },
@@ -15,8 +15,8 @@
             "name": "[parameters('workflows_logic_kjdemo_name')]",
             "location": "eastus2",
             "identity": {
-                "principalId": "578905ee-2355-43c6-bd40-f33956e70376",
-                "tenantId": "6c637512-c417-4e78-9d62-b61258e4b619",
+                "principalId": "",
+                "tenantId": "",
                 "type": "SystemAssigned"
             },
             "properties": {
