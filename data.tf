@@ -32,5 +32,6 @@ data "azurerm_key_vault_secret" "sqlserverpw" {
 data "azurerm_logic_app_workflow" "example" {
   name                = "logic-${var.prefix}"
   resource_group_name = azurerm_resource_group.rg.name
+  depends_on          = [azurerm_template_deployment.templateTEST]
 }
 

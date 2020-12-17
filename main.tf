@@ -99,8 +99,8 @@ resource "azurerm_template_deployment" "ARMADF" {
   deployment_mode     = "Incremental"              # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_body       = file("${path.module}/adf-kjdemo/ARMTemplateForFactory.json")
   parameters = { # Has to be wrapped in jsonencode given passing to .json file
-    "factoryName"                                     = "adf-${var.prefix}-2" 
-    "AzureKeyVault_properties_typeProperties_baseUrl" = "https://kv-demo-kja.vault.azure.net/" 
+    "factoryName"                                     = "adf-${var.prefix}-2"
+    "AzureKeyVault_properties_typeProperties_baseUrl" = "https://kv-demo-kja.vault.azure.net/"
   }
 }
 
