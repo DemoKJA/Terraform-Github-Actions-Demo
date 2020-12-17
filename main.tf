@@ -20,6 +20,8 @@ resource "azurerm_resource_group" "rg" {
 #   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
 # }
 
+/*
+# Below is for the new version AzueRM 3, but has bugs 
 # Create logic apps with ARM imbedded in terraform, overloading the Terraform managed one
 # 1) Create a logic app with the same name as the one managed in ARM template passing parameter to it
 # 2) In ARM template replace principalId and tenantId with "" AND remove the 'defaultValue' line within the variables
@@ -44,6 +46,20 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
   })
   depends_on = [azurerm_logic_app_workflow.logicappaas]
 }
+*/
+
+resource "azurerm_template_deployment" "templateTEST" {
+  name                = "arm-Deployment"
+  depends_on          = [azurerm_logic_app_workflow.logicappaas]
+  resource_group_name = azurerm_resource_group.rg.name
+  deployment_mode     = "Incremental"
+  template_body       = file("${path.module}/arm/createLogicAppsTEST.json")
+  parameters = {
+    "workflows_logic_kjdemo_name" = "logic-${var.prefix}"
+  }
+
+}
+
 
 # Create teh terraform managed logic app
 resource "azurerm_logic_app_workflow" "logicappaas" {

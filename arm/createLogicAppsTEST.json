@@ -2,9 +2,9 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "logic_app_name": {
-            "type": "string",
-            "defaultValue": "${logicappname}"
+        "workflows_logic_kjdemo_name": {
+            "defaultValue": "logic-kjdemo",
+            "type": "String"
         }
     },
     "variables": {},
@@ -12,11 +12,11 @@
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "[parameters('logic_app_name')]",
+            "name": "[parameters('workflows_logic_kjdemo_name')]",
             "location": "eastus2",
             "identity": {
-                "principalId": "", 
-                "tenantId": "",
+                "principalId": "578905ee-2355-43c6-bd40-f33956e70376",
+                "tenantId": "6c637512-c417-4e78-9d62-b61258e4b619",
                 "type": "SystemAssigned"
             },
             "properties": {
