@@ -121,7 +121,7 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   sku                     = "S0"
   enable_power_bi_service = true
   admin_users             = ["kimiebi.akah@insight.com"]
-  depends_on              = [azurerm_resource_group_template_deployment.templateTEST]
+  depends_on              = [azurerm_template_deployment.templateTEST]
 
 
   ipv4_firewall_rule {
