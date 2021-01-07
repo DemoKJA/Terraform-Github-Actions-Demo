@@ -1,4 +1,4 @@
-name: prod Apply
+name: Prod Apply
 
 on: 
   workflow_dispatch:
