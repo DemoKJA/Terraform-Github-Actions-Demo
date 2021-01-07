@@ -117,13 +117,13 @@ resource "azurerm_data_factory" "adf" {
   # As for the folder structure in 'main', it will take the 
 
   dynamic "github_configuration" {
-    for_each = var.adf_gits
+    for_each = var.adf_git ? [1] : []
     content {
-      account_name    = adf_git.value["account_name"]
-      git_url         = adf_git.value["git_url"]
-      branch_name     = adf_git.value["branch_name"]
-      repository_name = adf_git.value["repository_name"]
-      root_folder     = adf_git.value["acroot_foldercount_name"]
+      account_name    = "demokja"
+      git_url         = "https://github.com"
+      branch_name     = "holder-colab-${var.prefix}"
+      repository_name = "Terraform-Github-Actions-Demo"
+      root_folder     = "/ADF-ARM"
     }
   }
 

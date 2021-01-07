@@ -1,2 +1,2 @@
-prefix   = "kjaprod"
-adf_gits = null
+prefix  = "kjaprod"
+adf_git = false
