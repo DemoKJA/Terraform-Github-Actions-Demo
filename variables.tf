@@ -6,4 +6,4 @@ variable "location" {
 }
 
 variable prefix {}
-variable adf_git_branch {}
+variable adf_gits {}
