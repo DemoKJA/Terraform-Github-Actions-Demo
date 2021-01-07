@@ -10,11 +10,5 @@
 # ARM_ACCESS_KEY
 
 terraform {
-  backend "azurerm" {
-    resource_group_name  = "kja-rg"
-    storage_account_name = "kjastorage"
-    container_name       = "tfstate"
-    key                  = "terraform.tfstate"
-  }
+  backend "azurerm" {}
 }
-

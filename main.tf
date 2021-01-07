@@ -68,14 +68,6 @@ resource "azurerm_logic_app_workflow" "logicappaas" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-# Output the ip's to see if correct data
-output "workflow_outbound_ip_addresses1" {
-  value = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 0)
-}
-
-output "workflow_outbound_ip_addresses2" {
-  value = element(data.azurerm_logic_app_workflow.example.workflow_outbound_ip_addresses, 1)
-}
 
 # Switch to old version as the new has bugs
 # ADF ARM template detailed pipeline information
