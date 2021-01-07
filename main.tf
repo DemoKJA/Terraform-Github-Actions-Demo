@@ -125,7 +125,7 @@ resource "azurerm_data_factory" "adf" {
   }
 }
 
-
+/*
 # Create Azure Analysis Services
 resource "azurerm_analysis_services_server" "analysisserver" {
   name                    = "${var.prefix}aas"
@@ -151,7 +151,7 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   }
 
 }
-
+*/
 
 
 
