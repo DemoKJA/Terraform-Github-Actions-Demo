@@ -119,7 +119,7 @@ resource "azurerm_data_factory" "adf" {
   github_configuration {
     account_name    = "demokja"
     git_url         = "https://github.com"
-    branch_name     = "holder-colab-${var.prefix}"
+    branch_name     = var.adf_git_branch
     repository_name = "Terraform-Github-Actions-Demo"
     root_folder     = "/ADF-ARM"
   }
