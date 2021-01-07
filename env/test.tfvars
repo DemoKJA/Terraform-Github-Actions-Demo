@@ -1,1 +1,1 @@
-prefix = "kjatest"
+prefix = "kjdemo"

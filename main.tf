@@ -91,7 +91,7 @@ resource "azurerm_template_deployment" "ARMADF" {
   deployment_mode     = "Incremental"              # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
   template_body       = file("${path.module}/adf-kjdemo/ARMTemplateForFactory.json")
   parameters = { # Has to be wrapped in jsonencode given passing to .json file
-    "factoryName"                                     = "adf-${var.prefix}-2"
+    "factoryName"                                     = "adf-${var.prefix}"
     "AzureKeyVault_properties_typeProperties_baseUrl" = "https://kv-demo-kja.vault.azure.net/"
   }
 }
@@ -100,7 +100,7 @@ resource "azurerm_template_deployment" "ARMADF" {
 # Then create a datafactory
 # Create Azure Datafactory
 resource "azurerm_data_factory" "adf" {
-  name                = "adf-${var.prefix}-2"
+  name                = "adf-${var.prefix}"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   identity {
