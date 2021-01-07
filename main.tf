@@ -110,11 +110,16 @@ resource "azurerm_data_factory" "adf" {
 
   # For "branch_name", it's the branch where actual version and work is done, note the 'main' branch, 
   # which is what will be used to publich ARM template to envionrmenets in terraform.
+  # *** For handling different tiers, ie. dev,stage, prod, paramterize their own branch, see below, but publish from
+  # only the tier you want to then be published in terraform. If do not have different collab brnaches accross tiers,
+  # then all tier, dev, stage, prod, will share a branch and any update on one will automativally be updated on all!!! 
+
+  # As for the folder structure in 'main', it will take the 
 
   github_configuration {
     account_name    = "demokja"
     git_url         = "https://github.com"
-    branch_name     = "holder-colab"
+    branch_name     = "holder-colab-${var.prefix}"
     repository_name = "Terraform-Github-Actions-Demo"
     root_folder     = "/ADF-ARM"
   }
