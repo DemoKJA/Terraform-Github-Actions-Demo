@@ -41,4 +41,4 @@ jobs:
           terraform apply -input=false prod.tfplan
       - name: terraform remove ADF details
         run: |
-          terraform state rm 'azurerm_template_deployment'.'ARMADF'
+          terraform destroy -target azurerm_template_deployment.ARMADF
