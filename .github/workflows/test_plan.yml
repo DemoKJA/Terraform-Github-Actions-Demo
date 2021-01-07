@@ -36,6 +36,9 @@ jobs:
       - name: plan
         run: |
           terraform plan -input=false -out test.tfplan -var-file env/test.tfvars
+      - name: terraform destroy ADF details
+        run: |
+          terraform destroy -force -target azurerm_template_deployment.ARMADF
       - name: upload
         uses: actions/upload-artifact@v2
         with:
