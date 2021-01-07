@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "workflows_logic_kjatest_name": {
+        "workflows_logic_kjdemo_name": {
             "defaultValue": "logic-kjatest",
             "type": "String"
         }
@@ -12,7 +12,7 @@
         {
             "type": "Microsoft.Logic/workflows",
             "apiVersion": "2017-07-01",
-            "name": "[parameters('workflows_logic_kjatest_name')]",
+            "name": "[parameters('workflows_logic_kjdemo_name')]",
             "location": "eastus2",
             "identity": {
                 "principalId": "",
