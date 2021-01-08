@@ -84,6 +84,8 @@ resource "azurerm_logic_app_workflow" "logicappaas" {
 
 # }
 
+# Below now in own project
+/*
 resource "azurerm_template_deployment" "ARMADF" {
   name                = "arm-adf-deployment"
   resource_group_name = azurerm_resource_group.rg.name
@@ -95,7 +97,7 @@ resource "azurerm_template_deployment" "ARMADF" {
     "AzureKeyVault_properties_typeProperties_baseUrl" = "https://kv-demo-kja.vault.azure.net/"
   }
 }
-
+*/
 
 # Then create a datafactory
 # Create Azure Datafactory
@@ -121,8 +123,8 @@ resource "azurerm_data_factory" "adf" {
     content {
       account_name    = "demokja"
       git_url         = "https://github.com"
-      branch_name     = "holder-colab-${var.prefix}"
-      repository_name = "Terraform-Github-Actions-Demo"
+      branch_name     = "colab"
+      repository_name = "Datafactory-Standalone"
       root_folder     = "/ADF-ARM"
     }
   }
