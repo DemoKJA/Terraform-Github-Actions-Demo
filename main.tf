@@ -68,22 +68,6 @@ resource "azurerm_logic_app_workflow" "logicappaas" {
   resource_group_name = azurerm_resource_group.rg.name
 }
 
-
-# Switch to old version as the new has bugs
-# ADF ARM template detailed pipeline information
-# resource "azurerm_resource_group_template_deployment" "ARMADF" {
-#   name                = "arm-adf-deployment"
-#   resource_group_name = azurerm_resource_group.rg.name
-#   depends_on          = [azurerm_data_factory.adf] # Since the expored ARM template is not creating the ADF
-#   deployment_mode     = "Incremental"              # If set to "Complete", will blow away everything in the resource group that's not in the ARM template
-#   template_content    = file("${path.module}/adf-kjdemo/ARMTemplateForFactory.json")
-#   parameters_content = jsonencode({ # Has to be wrapped in jsonencode given passing to .json file
-#     factoryName                                     = { value = "adf-${var.prefix}-2" }
-#     AzureKeyVault_properties_typeProperties_baseUrl = { value = "https://kv-demo-kja.vault.azure.net/" }
-#   })
-
-# }
-
 # Below now in own project
 /*
 resource "azurerm_template_deployment" "ARMADF" {
