@@ -112,10 +112,6 @@ resource "azurerm_data_factory" "adf" {
       root_folder     = "/ADF-ARM"
     }
 
-    lifecycle {
-      ignore_changes = github_configuration[0].git_url
-    }
-
   }
 
   # github_configuration {
@@ -125,6 +121,10 @@ resource "azurerm_data_factory" "adf" {
   #   repository_name = "Terraform-Github-Actions-Demo"
   #   root_folder     = "/ADF-ARM"
   # }
+}
+
+lifecycle {
+  ignore_changes = github_configuration[0].git_url
 }
 
 /*
