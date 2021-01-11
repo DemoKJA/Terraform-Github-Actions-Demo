@@ -105,8 +105,8 @@ resource "azurerm_data_factory" "adf" {
   dynamic "github_configuration" {
     for_each = var.adf_git ? [1] : []
     content {
-      account_name    = "demokja1"
-      git_url         = "https://github.coms.ok god"
+      account_name    = "demokja"
+      git_url         = "https://github.com"
       branch_name     = "colab"
       repository_name = "Datafactory-Standalone"
       root_folder     = "/ADF-ARM"
@@ -114,9 +114,6 @@ resource "azurerm_data_factory" "adf" {
 
   }
 
-  lifecycle {
-    ignore_changes = [github_configuration.0.git_url] # Represents git_url
-  }
 
 }
 
