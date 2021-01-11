@@ -114,18 +114,13 @@ resource "azurerm_data_factory" "adf" {
 
   }
 
-  # github_configuration {
-  #   account_name    = "demokja"
-  #   git_url         = "https://github.com"
-  #   branch_name     = var.adf_git_branch
-  #   repository_name = "Terraform-Github-Actions-Demo"
-  #   root_folder     = "/ADF-ARM"
-  # }
+  lifecycle {
+    ignore_changes = [github_configuration[0].git_url]
+  }
+
 }
 
-lifecycle {
-  ignore_changes = github_configuration[0].git_url
-}
+
 
 /*
 # Create Azure Analysis Services
