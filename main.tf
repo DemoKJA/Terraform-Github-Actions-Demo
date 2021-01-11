@@ -115,7 +115,7 @@ resource "azurerm_data_factory" "adf" {
   }
 
   lifecycle {
-    ignore_changes = [github_configuration.git_url]
+    ignore_changes = [github_configuration[1]] # Represents git_url
   }
 
 }
