@@ -39,6 +39,3 @@ jobs:
       - name: terraform apply
         run: |
           terraform apply -input=false test.tfplan
-      - name: terraform destroy ADF ARM management
-        run: |
-          terraform destroy -force -target azurerm_template_deployment.ARMADF
