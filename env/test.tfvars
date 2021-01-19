@@ -1,2 +1,2 @@
-prefix  = "kjdemo"
+prefix  = "kjatest"
 adf_git = true 
