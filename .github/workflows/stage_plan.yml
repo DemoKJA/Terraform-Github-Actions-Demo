@@ -1,4 +1,4 @@
-name: Test Plan
+name: Stage Plan
 
 on: 
   workflow_dispatch:
@@ -25,7 +25,7 @@ jobs:
       - name: init
         run: |
           terraform init \
-            -backend-config=key=test.terraform.tfstate \
+            -backend-config=key=stage.terraform.tfstate \
             -backend-config=container_name=tfstate \
             -backend-config=resource_group_name=kja-rg \
             -backend-config=storage_account_name=kjastorage \
@@ -35,9 +35,9 @@ jobs:
           terraform validate
       - name: plan
         run: |
-          terraform plan -input=false -out test.tfplan -var-file env/test.tfvars
+          terraform plan -input=false -out stage.tfplan -var-file env/stage.tfvars
       - name: upload
         uses: actions/upload-artifact@v2
         with:
-          name: test.tfplan
-          path: test.tfplan 
+          name: stage.tfplan
+          path: stage.tfplan 
