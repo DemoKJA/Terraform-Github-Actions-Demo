@@ -24,6 +24,7 @@ jobs:
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 0.14.2
+          terraform_wrapper: false
       - name: init
         run: |
           terraform init \
@@ -44,7 +45,7 @@ jobs:
       - name: Update PR (plan)
         uses: actions/github-script@0.9.0
         env:
-          STDOUT: "```terraform\n${{ steps.plan.outputs.output }}```"
+          STDOUT: "```terraform\n${{ steps.plan.outputs.stdout }}```"
         with:
           script: |
             const output = `<details><summary>tf plan (nonprod):</summary>\n\n${process.env.STDOUT}\n\n</details>`;
