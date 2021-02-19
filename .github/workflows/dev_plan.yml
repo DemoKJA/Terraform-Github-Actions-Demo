@@ -45,7 +45,7 @@ jobs:
       - name: Update PR (plan)
         uses: actions/github-script@0.9.0
         env:
-          STDOUT: "```terraform\n${{ steps.plan.outputs.stdout }}```"
+          STDOUT: "```terraform\n${{ steps.plan.outputs.* }}```"
         with:
           script: |
             const output = `<details><summary>tf plan (nonprod):</summary>\n\n${process.env.STDOUT}\n\n</details>`;
