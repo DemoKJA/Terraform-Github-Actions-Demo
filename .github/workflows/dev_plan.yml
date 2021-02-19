@@ -39,6 +39,9 @@ jobs:
       - name: plan
         run: |
           terraform plan -input=false -out dev.tfplan -var-file env/dev.tfvars
+      - name: Capture plan
+        id: plan
+        run: terraform show -no-color dev.tfplan
       - name: Update PR (plan)
         uses: actions/github-script@0.9.0
         env:
