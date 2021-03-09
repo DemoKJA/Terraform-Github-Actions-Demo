@@ -36,6 +36,17 @@ resource "azurerm_storage_account" "storageacc2" {
 
 
 
+# Create Azure Analysis Services
+resource "azurerm_analysis_services_server" "analysisserver" {
+  name                    = "${var.prefix}aas"
+  location                = azurerm_resource_group.rg.location
+  resource_group_name     = azurerm_resource_group.rg.name
+  sku                     = "S0"
+  enable_power_bi_service = true
+  ignore_changes          = [admin_users]
+
+}
+
 # Create Azure Function:
 resource "azurerm_app_service_plan" "app_service_plan" {
   name                = "${var.org}-plan-dgtlbi-${var.environment}-001"
