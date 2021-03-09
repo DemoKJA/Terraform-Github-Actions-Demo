@@ -43,7 +43,10 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   resource_group_name     = azurerm_resource_group.rg.name
   sku                     = "S0"
   enable_power_bi_service = true
-  ignore_changes          = [admin_users]
+
+  lifecycle {
+    ignore_changes = [admin_users]
+  }
 
 }
 
