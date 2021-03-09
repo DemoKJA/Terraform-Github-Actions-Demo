@@ -1,6 +1,9 @@
 name: Dev Plan
 
 on:
+  push:
+    branches:
+      - dev
   workflow_dispatch:
 
 env:

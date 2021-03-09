@@ -1,6 +1,6 @@
 name: Dev Apply
 
-on:
+on:  
   workflow_dispatch:
 
 env:
