@@ -7,3 +7,5 @@ variable "location" {
 
 variable prefix {}
 variable adf_git {}
+variable org {}
+variable environment {}

@@ -11,14 +11,66 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
-resource "azurerm_sql_server" "sqlserver" {
-  name                         = "${var.prefix}-server"
-  resource_group_name          = azurerm_resource_group.rg.name
-  location                     = azurerm_resource_group.rg.location
-  version                      = "12.0"
-  administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
-  administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
+# Create Archive Storage account 
+resource "azurerm_storage_account" "storageacc2" {
+  name                      = "${var.org}dlsdgtlbi${var.environment}002"
+  resource_group_name       = azurerm_resource_group.rg.name
+  location                  = var.location
+  account_tier              = "Standard"
+  account_replication_type  = "LRS"
+  account_kind              = "StorageV2"
+  is_hns_enabled            = "true" # for datalake gen2
+  enable_https_traffic_only = "true"
+  min_tls_version           = "TLS1_0"
+  allow_blob_public_access  = "true"
+
+  /*removed for azure machine learning
+  network_rules {
+    default_action             = "Deny"
+    bypass                     = var.bypass
+    ip_rules                   = local.ip_whitelist
+    virtual_network_subnet_ids = concat(var.subnet_ids, [azurerm_subnet.dbw_public_subnet.id])
+  }
+  */
 }
+
+
+
+# Create Azure Function:
+resource "azurerm_app_service_plan" "app_service_plan" {
+  name                = "${var.org}-plan-dgtlbi-${var.environment}-001"
+  location            = var.location
+  resource_group_name = azurerm_resource_group.rg.name
+  reserved            = false
+
+  sku {
+    tier = "Standard"
+    size = "S1"
+  }
+}
+
+resource "azurerm_function_app" "function_app" {
+  name                       = "${var.org}-func-dgtlbi-${var.environment}-001"
+  location                   = var.location
+  resource_group_name        = azurerm_resource_group.rg.name
+  app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
+  storage_account_name       = azurerm_storage_account.storageacc2.name # Will create another storage account if needed once this works...
+  storage_account_access_key = azurerm_storage_account.storageacc2.primary_access_key
+}
+
+
+
+
+# resource "azurerm_sql_server" "sqlserver" {
+#   name                         = "${var.prefix}-server"
+#   resource_group_name          = azurerm_resource_group.rg.name
+#   location                     = azurerm_resource_group.rg.location
+#   version                      = "12.0"
+#   administrator_login          = data.azurerm_key_vault_secret.sqlserverusr.value
+#   administrator_login_password = data.azurerm_key_vault_secret.sqlserverpw.value
+# }
+
+
 
 /*
 # Below is for the new version AzueRM 3, but has bugs 
@@ -48,25 +100,25 @@ resource "azurerm_resource_group_template_deployment" "templateTEST" {
 }
 */
 
-resource "azurerm_template_deployment" "templateTEST" {
-  name                = "arm-Deployment"
-  depends_on          = [azurerm_logic_app_workflow.logicappaas]
-  resource_group_name = azurerm_resource_group.rg.name
-  deployment_mode     = "Incremental"
-  template_body       = file("${path.module}/arm/createLogicAppsTEST.json")
-  parameters = {
-    "workflows_logic_kjdemo_name" = "logic-${var.prefix}"
-  }
+# resource "azurerm_template_deployment" "templateTEST" {
+#   name                = "arm-Deployment"
+#   depends_on          = [azurerm_logic_app_workflow.logicappaas]
+#   resource_group_name = azurerm_resource_group.rg.name
+#   deployment_mode     = "Incremental"
+#   template_body       = file("${path.module}/arm/createLogicAppsTEST.json")
+#   parameters = {
+#     "workflows_logic_kjdemo_name" = "logic-${var.prefix}"
+#   }
 
-}
+# }
 
 
-# Create teh terraform managed logic app
-resource "azurerm_logic_app_workflow" "logicappaas" {
-  name                = "logic-${var.prefix}" # added as it will refresh analysis services model 
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-}
+# # Create teh terraform managed logic app
+# resource "azurerm_logic_app_workflow" "logicappaas" {
+#   name                = "logic-${var.prefix}" # added as it will refresh analysis services model 
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+# }
 
 # Below now in own project
 /*
@@ -83,42 +135,42 @@ resource "azurerm_template_deployment" "ARMADF" {
 }
 */
 
-# Then create a datafactory
-# Create Azure Datafactory
-resource "azurerm_data_factory" "adf" {
-  name                = "adf-${var.prefix}"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  identity {
-    type = "SystemAssigned"
-  }
+# # Then create a datafactory
+# # Create Azure Datafactory
+# resource "azurerm_data_factory" "adf" {
+#   name                = "adf-${var.prefix}"
+#   location            = azurerm_resource_group.rg.location
+#   resource_group_name = azurerm_resource_group.rg.name
+#   identity {
+#     type = "SystemAssigned"
+#   }
 
 
-  # For "branch_name", it's the branch where actual version and work is done, note the 'main' branch, 
-  # which is what will be used to publich ARM template to envionrmenets in terraform.
-  # *** For handling different tiers, ie. dev,stage, prod, paramterize their own branch, see below, but publish from
-  # only the tier you want to then be published in terraform. If do not have different collab brnaches accross tiers,
-  # then all tier, dev, stage, prod, will share a branch and any update on one will automativally be updated on all!!! 
+# For "branch_name", it's the branch where actual version and work is done, note the 'main' branch, 
+# which is what will be used to publich ARM template to envionrmenets in terraform.
+# *** For handling different tiers, ie. dev,stage, prod, paramterize their own branch, see below, but publish from
+# only the tier you want to then be published in terraform. If do not have different collab brnaches accross tiers,
+# then all tier, dev, stage, prod, will share a branch and any update on one will automativally be updated on all!!! 
 
-  # As for the folder structure in 'main', it will take the 
+# As for the folder structure in 'main', it will take the 
 
-  lifecycle {
-    ignore_changes = [github_configuration]
-  }
-  # dynamic "github_configuration" {
-  #   for_each = var.adf_git ? [1] : []
-  #   content {
-  #     account_name    = "demokja"
-  #     git_url         = "https://github.com"
-  #     branch_name     = "colab"
-  #     repository_name = "Datafactory-Standalone"
-  #     root_folder     = "/ADF-ARM"
-  #   }
+# lifecycle {
+#   ignore_changes = [github_configuration]
+# }
+# dynamic "github_configuration" {
+#   for_each = var.adf_git ? [1] : []
+#   content {
+#     account_name    = "demokja"
+#     git_url         = "https://github.com"
+#     branch_name     = "colab"
+#     repository_name = "Datafactory-Standalone"
+#     root_folder     = "/ADF-ARM"
+#   }
 
-  # }
+# }
 
 
-}
+# }
 
 
 
