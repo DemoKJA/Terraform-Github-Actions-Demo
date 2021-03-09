@@ -1,9 +1,6 @@
 name: Dev Apply
 
 on:
-  push:
-    branches:
-      - dev
   workflow_dispatch:
 
 env:
