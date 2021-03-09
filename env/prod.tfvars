@@ -1,4 +1,4 @@
 prefix  = "kjaprod"
 adf_git = false
-org = "tsa"
+org = "kja"
 environment = "prod"

@@ -1,4 +1,4 @@
 prefix  = "kjadev"
 adf_git = true
-org = "tsa"
+org = "kja"
 environment = "dev"

@@ -1,4 +1,4 @@
 prefix  = "kjastage"
 adf_git = true 
-org = "tsa"
+org = "kja"
 environment = "stage"
