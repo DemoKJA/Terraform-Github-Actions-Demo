@@ -56,6 +56,7 @@ resource "azurerm_function_app" "function_app" {
   app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
   storage_account_name       = azurerm_storage_account.storageacc2.name # Will create another storage account if needed once this works...
   storage_account_access_key = azurerm_storage_account.storageacc2.primary_access_key
+  version                    = "~3"
 }
 
 
