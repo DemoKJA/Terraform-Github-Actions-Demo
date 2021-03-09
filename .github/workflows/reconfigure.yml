@@ -1,0 +1,35 @@
+name: Reconfigure
+
+on: 
+  workflow_dispatch:
+
+env:
+  ARM_ACCESS_KEY: ${{ secrets.AzStorageKey }}
+  ARM_SUBSCRIPTION_ID: ${{ secrets.sub }}
+  ARM_TENANT_ID: ${{ secrets.tenantId }}
+  ARM_CLIENT_ID: ${{ secrets.clientId }}
+  ARM_CLIENT_SECRET: ${{ secrets.clientSecret }}
+
+jobs:
+  terraform_workflow:
+    name: terraform_workflow
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: setup
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 0.14.2
+          terraform_wrapper: false
+      - name: init
+        run: |
+          terraform init \
+            -backend-config=key=test.terraform.tfstate \
+            -backend-config=container_name=tfstate \
+            -backend-config=resource_group_name=kja-rg \
+            -backend-config=storage_account_name=kjastorage \
+            -input=false
+      - name: reconfigure
+        run: |
+          terraform init -reconfigure
