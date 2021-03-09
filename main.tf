@@ -45,7 +45,7 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   enable_power_bi_service = true
 
   lifecycle {
-    ignore_changes = [admin_users]
+    ignore_changes = [admin_users, ipv4_firewall_rule]
   }
 
 }
