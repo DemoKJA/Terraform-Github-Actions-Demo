@@ -10,4 +10,6 @@ variable adf_git {}
 variable org {}
 variable environment {}
 
-variable tags {}
+variable "tags" {
+  type = map(string)
+}
