@@ -11,6 +11,88 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 }
 
+
+resource "azurerm_resource_group_template_deployment" "managed-instance" {
+  name                = "${var.prefix}-mi-deployment"
+  resource_group_name = azurerm_resource_group.rg.name
+  deployment_mode     = "Incremental"
+  template_content    = file("${path.module}/arm/sql-managed-instance.json")
+  parameters_content  = <<TEMPLATE
+{
+    "managedInstanceName": {
+        "value": "${var.prefix}-mi"
+    },
+    "location": {
+        "value": "eastus2"
+    },
+    "managedInstanceTags": {
+        "value": "${va.tags}"
+    },
+    "skuName": {
+        "value": "GP_Gen5"
+    },
+    "skuEdition": {
+        "value": "GeneralPurpose"
+    },
+    "administratorLogin": {
+        "value": "miadmin"
+    },
+    "administratorLoginPassword": {
+       "reference": {
+        "keyVault": {
+        "id": "${data.azurerm_key_vault.keyvault.id}"
+        },
+        "secretName": "sql-mi-passwod"
+      }
+    },
+    "subnetId": {
+        "value": "${data.azurerm_subnet.sql-mi-subnet.id}"
+    },
+    "storageSizeInGB": {
+        "value": 256
+    },
+    "vCores": {
+        "value": 8
+    },
+    "licenseType": {
+        "value": "BasePrice"
+    },
+    "hardwareFamily": {
+        "value": "Gen5"
+    },
+    "dnsZonePartner": {
+        "value": ""
+    },
+    "collation": {
+        "value": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "proxyOverride": {
+        "value": "Proxy"
+    },
+    "publicDataEndpointEnabled": {
+        "value": false
+    },
+    "minimalTlsVersion": {
+        "value": "1.2"
+    },
+    "timezoneId": {
+        "value": "UTC"
+    },
+    "storageAccountType": {
+        "value": "GRS"
+    }
+}
+TEMPLATE
+  # depends_on = [
+  #     # you probably need this for dependency management
+  #     azurerm_key_vault_secret.password,
+  # ]
+  timeouts {
+    create = "8h"
+  }
+}
+
+/*
 # Create Archive Storage account 
 resource "azurerm_storage_account" "storageacc2" {
   name                      = "${var.org}dlsdgtlbi${var.environment}002"
@@ -31,11 +113,12 @@ resource "azurerm_storage_account" "storageacc2" {
     ip_rules                   = local.ip_whitelist
     virtual_network_subnet_ids = concat(var.subnet_ids, [azurerm_subnet.dbw_public_subnet.id])
   }
-  */
+  
 }
+*/
 
 
-
+/*
 # Create Azure Analysis Services
 resource "azurerm_analysis_services_server" "analysisserver" {
   name                    = "${var.prefix}aas"
@@ -49,37 +132,7 @@ resource "azurerm_analysis_services_server" "analysisserver" {
   }
 
 }
-
-# Create Azure Function:
-resource "azurerm_app_service_plan" "app_service_plan" {
-  name                = "${var.org}-plan-dgtlbi-${var.environment}-001"
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  reserved            = false
-
-  sku {
-    tier = "Standard"
-    size = "S1"
-  }
-}
-
-resource "azurerm_function_app" "function_app" {
-  name                       = "${var.org}-func-dgtlbi-${var.environment}-001"
-  location                   = var.location
-  resource_group_name        = azurerm_resource_group.rg.name
-  app_service_plan_id        = azurerm_app_service_plan.app_service_plan.id
-  storage_account_name       = azurerm_storage_account.storageacc2.name # Will create another storage account if needed once this works...
-  storage_account_access_key = azurerm_storage_account.storageacc2.primary_access_key
-  version                    = "~3"
-
-  identity {
-    type = "SystemAssigned"
-  }
-
-
-}
-
-
+*/
 
 
 # resource "azurerm_sql_server" "sqlserver" {

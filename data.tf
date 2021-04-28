@@ -21,6 +21,12 @@ data "azurerm_key_vault_secret" "sqlserverpw" {
 }
 
 
+data "azurerm_subnet" "sql-mi-subnet" {
+  name                 = "ManagedInstances"
+  virtual_network_name = "KJVNet-mi-manually"
+  resource_group_name  = var.prefix
+}
+
 # Attempt to retrieve objectID and applicationID for Active Directory:
 # data "azuread_application" "logicappdata" {
 #   depends_on = [azurerm_resource_group_template_deployment.templateTEST]
