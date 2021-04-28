@@ -15,12 +15,6 @@
                 "description": "The location of the Managed Instance. Default is the location of the selected resource group."
             }
         },
-        "managedInstanceTags": {
-            "type": "Object",
-            "metadata": {
-                "description": "Resource tags to associate with the instance."
-            }
-        },
         "skuName": {
             "type": "String",
             "defaultValue": "GP_Gen5",
@@ -181,7 +175,6 @@
             "apiVersion": "2020-02-02-preview",
             "name": "[parameters('managedInstanceName')]",
             "location": "[parameters('location')]",
-            "tags": "[parameters('managedInstanceTags')]",
             "sku": {
                 "name": "[parameters('skuName')]",
                 "tier": "[parameters('skuEdition')]"

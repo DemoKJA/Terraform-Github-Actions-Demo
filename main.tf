@@ -25,9 +25,6 @@ resource "azurerm_resource_group_template_deployment" "managed-instance" {
     "location": {
         "value": "eastus2"
     },
-    "managedInstanceTags": {
-        "value": "${var.tags}"
-    },
     "skuName": {
         "value": "GP_Gen5"
     },
