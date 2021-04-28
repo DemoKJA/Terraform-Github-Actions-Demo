@@ -41,10 +41,10 @@ resource "azurerm_resource_group_template_deployment" "managed-instance" {
         "value": "${data.azurerm_subnet.sql-mi-subnet.id}"
     },
     "storageSizeInGB": {
-        "value": 256
+        "value": 32
     },
     "vCores": {
-        "value": 8
+        "value": 4
     },
     "licenseType": {
         "value": "BasePrice"
