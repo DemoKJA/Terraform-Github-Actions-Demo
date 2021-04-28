@@ -35,12 +35,7 @@ resource "azurerm_resource_group_template_deployment" "managed-instance" {
         "value": "miadmin"
     },
     "administratorLoginPassword": {
-       "reference": {
-        "keyVault": {
-        "id": "${data.azurerm_key_vault.keyvault.id}"
-        },
-        "secretName": "sql-mi-passwod"
-      }
+        "value":"${data.azurerm_key_vault_secret.sqlmipw.value}"
     },
     "subnetId": {
         "value": "${data.azurerm_subnet.sql-mi-subnet.id}"

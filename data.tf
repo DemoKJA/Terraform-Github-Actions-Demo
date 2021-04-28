@@ -20,6 +20,12 @@ data "azurerm_key_vault_secret" "sqlserverpw" {
   key_vault_id = data.azurerm_key_vault.keyvault.id
 }
 
+# Retrieve keyvault sql-mi password
+data "azurerm_key_vault_secret" "sqlmipw" {
+  name         = "sql-mi-passwod"
+  key_vault_id = data.azurerm_key_vault.keyvault.id
+}
+
 
 data "azurerm_subnet" "sql-mi-subnet" {
   name                 = "ManagedInstances"
